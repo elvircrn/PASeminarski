@@ -1,0 +1,245 @@
+[p LITE_MODE AUTOSTATIC PIC14 PIC14E ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F1939 ]
+[d frameptr 6 ]
+"32 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\awtoft.c
+[v ___awtoft __awtoft `(f  1 e 3 0 ]
+"62 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\float.c
+[v ___ftpack __ftpack `(f  1 e 3 0 ]
+[v i1___ftpack __ftpack `(f  1 e 3 0 ]
+"86 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 3 0 ]
+"56 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 3 0 ]
+"4 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftge.c
+[v ___ftge __ftge `(b  1 e 0 0 ]
+"62 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 3 0 ]
+[v i1___ftmul __ftmul `(f  1 e 3 0 ]
+"15 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftneg.c
+[v ___ftneg __ftneg `(f  1 e 3 0 ]
+"44 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\fttol.c
+[v ___fttol __fttol `(l  1 e 4 0 ]
+"27 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\lbtoft.c
+[v ___lbtoft __lbtoft `(f  1 e 3 0 ]
+"6 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\pic\eeprom.c
+[v _eecpymem eecpymem `(v  1 e 1 0 ]
+"39
+[v _memcpyee memcpyee `(v  1 e 1 0 ]
+"23 C:\Users\SUser\Desktop\Seminarski\projekat.X\main.c
+[v _interruptSetup interruptSetup `(v  1 e 1 0 ]
+"35
+[v _handler handler `II(v  1 e 1 0 ]
+"44
+[v _initialize initialize `(v  1 e 1 0 ]
+"73
+[v _getConversionRes getConversionRes `(uc  1 e 1 0 ]
+"81
+[v _getVoltage getVoltage `(f  1 e 3 0 ]
+"125
+[v _main main `(v  1 e 1 0 ]
+"412 C:\Program Files (x86)\Microchip\xc8\v1.40\include\pic16f1939.h
+[v _PORTA PORTA `VEuc  1 e 1 @12 ]
+"473
+[v _PORTB PORTB `VEuc  1 e 1 @13 ]
+[s S106 . 1 `uc 1 RB0 1 0 :1:0 
+`uc 1 RB1 1 0 :1:1 
+`uc 1 RB2 1 0 :1:2 
+`uc 1 RB3 1 0 :1:3 
+`uc 1 RB4 1 0 :1:4 
+`uc 1 RB5 1 0 :1:5 
+`uc 1 RB6 1 0 :1:6 
+`uc 1 RB7 1 0 :1:7 
+]
+"490
+[u S115 . 1 `S106 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES115  1 e 1 @13 ]
+"1084
+[v _PR2 PR2 `VEuc  1 e 1 @27 ]
+"1103
+[v _T2CON T2CON `VEuc  1 e 1 @28 ]
+"1277
+[v _TRISA TRISA `VEuc  1 e 1 @140 ]
+"1338
+[v _TRISB TRISB `VEuc  1 e 1 @141 ]
+"1460
+[v _TRISD TRISD `VEuc  1 e 1 @143 ]
+"2105
+[v _ADRESL ADRESL `VEuc  1 e 1 @155 ]
+"2124
+[v _ADRESH ADRESH `VEuc  1 e 1 @156 ]
+"2143
+[v _ADCON0 ADCON0 `VEuc  1 e 1 @157 ]
+[s S64 . 1 `uc 1 ADON 1 0 :1:0 
+`uc 1 GO_nDONE 1 0 :1:1 
+`uc 1 CHS0 1 0 :1:2 
+`uc 1 CHS1 1 0 :1:3 
+`uc 1 CHS2 1 0 :1:4 
+`uc 1 CHS3 1 0 :1:5 
+`uc 1 CHS4 1 0 :1:6 
+]
+"2172
+[s S72 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 ADGO 1 0 :1:1 
+`uc 1 CHS 1 0 :5:2 
+]
+[s S76 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO 1 0 :1:1 
+]
+[s S79 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 nDONE 1 0 :1:1 
+]
+[u S82 . 1 `S64 1 . 1 0 `S72 1 . 1 0 `S76 1 . 1 0 `S79 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES82  1 e 1 @157 ]
+"2231
+[v _ADCON1 ADCON1 `VEuc  1 e 1 @158 ]
+[s S34 . 1 `uc 1 ADPREF0 1 0 :1:0 
+`uc 1 ADPREF1 1 0 :1:1 
+`uc 1 ADNREF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 ADCS0 1 0 :1:4 
+`uc 1 ADCS1 1 0 :1:5 
+`uc 1 ADCS2 1 0 :1:6 
+`uc 1 ADFM 1 0 :1:7 
+]
+"2253
+[s S43 . 1 `uc 1 ADPREF 1 0 :2:0 
+`uc 1 . 1 0 :2:2 
+`uc 1 ADCS 1 0 :3:4 
+]
+[u S47 . 1 `S34 1 . 1 0 `S43 1 . 1 0 ]
+[v _ADCON1bits ADCON1bits `VES47  1 e 1 @158 ]
+"3256
+[v _ANSELA ANSELA `VEuc  1 e 1 @396 ]
+"3313
+[v _ANSELB ANSELB `VEuc  1 e 1 @397 ]
+"4427
+[v _CCPR1L CCPR1L `VEuc  1 e 1 @657 ]
+"4465
+[v _CCP1CON CCP1CON `VEuc  1 e 1 @659 ]
+"7654
+[v _ADGO ADGO `VEb  1 e 0 @1257 ]
+"7656
+[v _ADIE ADIE `VEb  1 e 0 @1166 ]
+"7658
+[v _ADIF ADIF `VEb  1 e 0 @142 ]
+"8028
+[v _GIE GIE `VEb  1 e 0 @95 ]
+"8306
+[v _PEIE PEIE `VEb  1 e 0 @94 ]
+"34 C:\Users\SUser\Desktop\Seminarski\projekat.X\main.c
+[v _d d `f  1 e 3 0 ]
+"125
+[v _main main `(v  1 e 1 0 ]
+{
+"131
+[v main@cnt cnt `i  1 a 2 55 ]
+"129
+[v main@id id `uc  1 a 1 57 ]
+"149
+} 0
+"23
+[v _interruptSetup interruptSetup `(v  1 e 1 0 ]
+{
+"30
+} 0
+"44 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\fttol.c
+[v ___fttol __fttol `(l  1 e 4 0 ]
+{
+"47
+[v ___fttol@lval lval `ul  1 a 4 46 ]
+"46
+[v ___fttol@exp1 exp1 `uc  1 a 1 50 ]
+[v ___fttol@sign1 sign1 `uc  1 a 1 45 ]
+"44
+[v ___fttol@f1 f1 `f  1 p 3 37 ]
+"73
+} 0
+"15 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftneg.c
+[v ___ftneg __ftneg `(f  1 e 3 0 ]
+{
+[v ___ftneg@f1 f1 `f  1 p 3 0 ]
+"20
+} 0
+"62 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 3 0 ]
+{
+"65
+[v ___ftmul@f3_as_product f3_as_product `um  1 a 3 32 ]
+"64
+[v ___ftmul@sign sign `uc  1 a 1 36 ]
+[v ___ftmul@cntr cntr `uc  1 a 1 35 ]
+[v ___ftmul@exp exp `uc  1 a 1 31 ]
+"62
+[v ___ftmul@f1 f1 `f  1 p 3 21 ]
+[v ___ftmul@f2 f2 `f  1 p 3 24 ]
+"157
+} 0
+"86 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 3 0 ]
+{
+"88
+[v ___ftadd@exp1 exp1 `uc  1 a 1 20 ]
+[v ___ftadd@exp2 exp2 `uc  1 a 1 19 ]
+[v ___ftadd@sign sign `uc  1 a 1 18 ]
+"86
+[v ___ftadd@f1 f1 `f  1 p 3 8 ]
+[v ___ftadd@f2 f2 `f  1 p 3 11 ]
+"148
+} 0
+"62 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\float.c
+[v ___ftpack __ftpack `(f  1 e 3 0 ]
+{
+[v ___ftpack@arg arg `um  1 p 3 0 ]
+[v ___ftpack@exp exp `uc  1 p 1 3 ]
+[v ___ftpack@sign sign `uc  1 p 1 4 ]
+"86
+} 0
+"35 C:\Users\SUser\Desktop\Seminarski\projekat.X\main.c
+[v _handler handler `II(v  1 e 1 0 ]
+{
+"41
+} 0
+"62 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftmul.c
+[v i1___ftmul __ftmul `(f  1 e 3 0 ]
+{
+[v i1___ftmul@f3_as_product __ftmul `um  1 a 3 27 ]
+[v i1___ftmul@sign __ftmul `uc  1 a 1 31 ]
+[v i1___ftmul@cntr __ftmul `uc  1 a 1 30 ]
+[v i1___ftmul@exp __ftmul `uc  1 a 1 26 ]
+[v i1___ftmul@f1 f1 `f  1 p 3 16 ]
+[v i1___ftmul@f2 f2 `f  1 p 3 19 ]
+"157
+} 0
+"56 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 3 0 ]
+{
+"60
+[v ___ftdiv@f3 f3 `f  1 a 3 11 ]
+"59
+[v ___ftdiv@sign sign `uc  1 a 1 15 ]
+[v ___ftdiv@exp exp `uc  1 a 1 14 ]
+[v ___ftdiv@cntr cntr `uc  1 a 1 10 ]
+"56
+[v ___ftdiv@f2 f2 `f  1 p 3 0 ]
+[v ___ftdiv@f1 f1 `f  1 p 3 3 ]
+"86
+} 0
+"32 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\awtoft.c
+[v ___awtoft __awtoft `(f  1 e 3 0 ]
+{
+"34
+[v ___awtoft@sign sign `uc  1 a 1 13 ]
+"32
+[v ___awtoft@c c `i  1 p 2 8 ]
+"42
+} 0
+"62 C:\Program Files (x86)\Microchip\xc8\v1.40\sources\common\float.c
+[v i1___ftpack __ftpack `(f  1 e 3 0 ]
+{
+[v i1___ftpack@arg arg `um  1 p 3 0 ]
+[v i1___ftpack@exp exp `uc  1 p 1 3 ]
+[v i1___ftpack@sign sign `uc  1 p 1 4 ]
+"86
+} 0
