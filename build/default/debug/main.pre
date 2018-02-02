@@ -4544,12 +4544,35 @@ extern unsigned char __resetbits;
 extern __bit __powerdown;
 extern __bit __timeout;
 
-# 19 "main.c"
+# 23 "main.c"
+void interruptSetup() {
+
+
+GIE = 1;
+PEIE = 1;
+ADIE = 1;
+ADIF = 0;
+}
+
+int analog_selected = 0;
+
+float d;
+void interrupt interruptHandler(void){
+if (ADIF) {
+ADIF = 0;
+PORTB = 0xff;
+}
+}
+
+
 void initialize() {
-ANSELA = 7;
-TRISA = 3;
+ANSELA = 0xff;
+TRISA = 0xff;
 TRISD = 0;
 PORTA = 0;
+TRISB = 0;
+ANSELB = 0;
+
 
 ADCON1bits.ADFM = 0;
 
@@ -4568,27 +4591,27 @@ ADCON0bits.CHS3 = 0;
 ADCON0bits.CHS2 = 0;
 ADCON0bits.CHS1 = 0;
 ADCON0bits.CHS0 = 0;
+
 }
 
 unsigned char getConversionRes(char id) {
 ADCON0bits.CHS0 = id;
 ADCON0bits.ADGO = 1;
-while (ADCON0bits.ADGO)
-;
+while (ADCON0bits.ADGO) ;
 return ADRESH;
 }
 
 float getVoltage(char id) { return 5.0f * (getConversionRes(id) / 255.0f); }
 
-# 61
+# 88
 void _main(void) {
 initialize();
 float uprev = 0, error;
 float integral = 0;
-float setPoint = 0.3f;
+float setPoint = getVoltage(0);
 float output = 0.0f;
 while (1) {
-error = setPoint - getVoltage(0);
+error = getVoltage(0) - getVoltage(1);
 integral += error * 0.5f;
 output = 9001.28f * error + -8998.71f * integral;
 
@@ -4597,7 +4620,11 @@ output = 5.0f;
 if (output < 0.0f)
 output = 0.0f;
 
-PORTD = ~((unsigned char)((output * 255.0f) / 5.0f));
+PORTBbits.RB0 = 0;
+_delay((unsigned long)((((1 / 19610.0f) * 1000.0f) * 0.3)*(8000000/4000.0)));
+PORTBbits.RB0 = 1;
+_delay((unsigned long)((((1 / 19610.0f) * 1000.0f) * 0.7)*(8000000/4000.0)));
+
 _delay((unsigned long)((0.5f * 1000.0f)*(8000000/4000.0)));
 }
 return;
@@ -4613,14 +4640,12 @@ CCP1CON = 0b00111100;
 }
 
 void main() {
-setup();
 
-unsigned char dc = 0;
+initialize();
+interruptSetup();
 for (;;) {
-PORTB = dc;
-dc ^= 0xff;
-_delay((unsigned long)((1000)*(8000000/4000.0)));
 
-# 112
+# 143
+};
 }
-}
+

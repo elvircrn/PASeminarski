@@ -1,22 +1,26 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"2231 C:\Program Files (x86)\Microchip\xc8\v1.40\include\pic16f1939.h
-[v _ADCON1 `Vuc ~T0 @X0 0 e@158 ]
-"2143
-[v _ADCON0 `Vuc ~T0 @X0 0 e@157 ]
-"8028
+"8028 C:\Program Files (x86)\Microchip\xc8\v1.40\include\pic16f1939.h
 [v _GIE `Vb ~T0 @X0 0 e@95 ]
 "8306
 [v _PEIE `Vb ~T0 @X0 0 e@94 ]
 "7656
 [v _ADIE `Vb ~T0 @X0 0 e@1166 ]
-"7654
-[v _ADGO `Vb ~T0 @X0 0 e@1257 ]
 "7658
 [v _ADIF `Vb ~T0 @X0 0 e@142 ]
+"7654
+[v _ADGO `Vb ~T0 @X0 0 e@1257 ]
+"8868
+[v _TMR0IF `Vb ~T0 @X0 0 e@90 ]
+"8866
+[v _TMR0IE `Vb ~T0 @X0 0 e@93 ]
+"8864
+[v _TMR0CS `Vb ~T0 @X0 0 e@1197 ]
+"8318
+[v _PSA `Vb ~T0 @X0 0 e@1195 ]
+"595
+[v _PORTD `Vuc ~T0 @X0 0 e@15 ]
 "2124
 [v _ADRESH `Vuc ~T0 @X0 0 e@156 ]
-"2105
-[v _ADRESL `Vuc ~T0 @X0 0 e@155 ]
 "3256
 [v _ANSELA `Vuc ~T0 @X0 0 e@396 ]
 "1277
@@ -29,6 +33,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISB `Vuc ~T0 @X0 0 e@141 ]
 "3313
 [v _ANSELB `Vuc ~T0 @X0 0 e@397 ]
+"473
+[v _PORTB `Vuc ~T0 @X0 0 e@13 ]
+"3370
+[v _ANSELD `Vuc ~T0 @X0 0 e@399 ]
 "2237
 [s S111 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S111 . ADPREF0 ADPREF1 ADNREF . ADCS0 ADCS1 ADCS2 ADFM ]
@@ -78,8 +86,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "4465
 [v _CCP1CON `Vuc ~T0 @X0 0 e@659 ]
 [p mainexit ]
-"473
-[v _PORTB `Vuc ~T0 @X0 0 e@13 ]
 "1 main.c
 [p x FOSC=HS ]
 [p x WDTE=OFF ]
@@ -3373,12 +3379,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 23: void interruptSetup() {
 [e :U _interruptSetup ]
 [f ]
-[; ;main.c: 24: ADCON1 = 0x82;
-"24
-[e = _ADCON1 -> -> 130 `i `uc ]
-[; ;main.c: 25: ADCON0 = 0b11000001;
-"25
-[e = _ADCON0 -> -> 193 `i `uc ]
 [; ;main.c: 26: GIE = 1;
 "26
 [e = _GIE -> -> 1 `i `b ]
@@ -3388,313 +3388,346 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 28: ADIE = 1;
 "28
 [e = _ADIE -> -> 1 `i `b ]
-[; ;main.c: 29: ADGO = 1;
+[; ;main.c: 29: ADIF = 0;
 "29
-[e = _ADGO -> -> 1 `i `b ]
-[; ;main.c: 30: }
+[e = _ADIF -> -> 0 `i `b ]
+[; ;main.c: 30: ADGO=1;
 "30
+[e = _ADGO -> -> 1 `i `b ]
+[; ;main.c: 31: TMR0IF=0;
+"31
+[e = _TMR0IF -> -> 0 `i `b ]
+[; ;main.c: 32: TMR0IE=1;
+"32
+[e = _TMR0IE -> -> 1 `i `b ]
+[; ;main.c: 33: TMR0CS = 0;
+"33
+[e = _TMR0CS -> -> 0 `i `b ]
+[; ;main.c: 34: PSA = 0;
+"34
+[e = _PSA -> -> 0 `i `b ]
+[; ;main.c: 35: }
+"35
 [e :UE 372 ]
 }
-"32
+"37
 [v _analog_selected `i ~T0 @X0 1 e ]
 [i _analog_selected
 -> 0 `i
 ]
-[; ;main.c: 32: int analog_selected = 0;
-"34
-[v _d `f ~T0 @X0 1 e ]
-[; ;main.c: 34: float d;
-[v F3495 `(v ~T0 @X0 1 tf ]
-"35
-[v _handler `IF3495 ~T0 @X0 1 e ]
-{
-[; ;main.c: 35: void interrupt handler(){
-[e :U _handler ]
-[f ]
-[; ;main.c: 36: if (ADIF) {
-"36
-[e $ ! _ADIF 374  ]
-{
-[; ;main.c: 37: ADIF=0;
-"37
-[e = _ADIF -> -> 0 `i `b ]
-[; ;main.c: 38: d = (((ADRESH << 8) | ADRESL) / 1023.0f) * 5.0;
-"38
-[e = _d -> * -> / -> | << -> _ADRESH `i -> 8 `i -> _ADRESL `i `f -> .1023.0 `f `d .5.0 `f ]
-[; ;main.c: 39: ADGO = 1;
+[; ;main.c: 37: int analog_selected = 0;
 "39
-[e = _ADGO -> -> 1 `i `b ]
+[v _reverse `(uc ~T0 @X0 1 ef1`uc ]
+{
+[; ;main.c: 39: unsigned char reverse(unsigned char b) {
+[e :U _reverse ]
+[v _b `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;main.c: 40: b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
 "40
-}
-[e :U 374 ]
-[; ;main.c: 40: }
-[; ;main.c: 41: }
+[e = _b -> | >> & -> _b `i -> 240 `i -> 4 `i << & -> _b `i -> 15 `i -> 4 `i `uc ]
+[; ;main.c: 41: b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
 "41
+[e = _b -> | >> & -> _b `i -> 204 `i -> 2 `i << & -> _b `i -> 51 `i -> 2 `i `uc ]
+[; ;main.c: 42: b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+"42
+[e = _b -> | >> & -> _b `i -> 170 `i -> 1 `i << & -> _b `i -> 85 `i -> 1 `i `uc ]
+[; ;main.c: 43: return b;
+"43
+[e ) _b ]
+[e $UE 373  ]
+[; ;main.c: 44: }
+"44
 [e :UE 373 ]
 }
-"44
+"46
+[v _turnOn `Vuc ~T0 @X0 1 e ]
+[v _d `Vuc ~T0 @X0 1 e ]
+[; ;main.c: 46: volatile unsigned char turnOn, d;
+[v F3499 `(v ~T0 @X0 1 tf ]
+"47
+[v _interruptHandler `IF3499 ~T0 @X0 1 e ]
+{
+[; ;main.c: 47: void interrupt interruptHandler(void){
+[e :U _interruptHandler ]
+[f ]
+[; ;main.c: 68: if (ADIE && ADIF) {
+"68
+[e $ ! && _ADIE _ADIF 375  ]
+{
+[; ;main.c: 70: PORTD = ~reverse(ADRESH);
+"70
+[e = _PORTD -> ~ -> ( _reverse (1 _ADRESH `i `uc ]
+[; ;main.c: 75: ADGO = 1;
+"75
+[e = _ADGO -> -> 1 `i `b ]
+[; ;main.c: 76: ADIF = 0;
+"76
+[e = _ADIF -> -> 0 `i `b ]
+"77
+}
+[e :U 375 ]
+[; ;main.c: 77: }
+[; ;main.c: 78: }
+"78
+[e :UE 374 ]
+}
+"81
 [v _initialize `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 44: void initialize() {
+[; ;main.c: 81: void initialize() {
 [e :U _initialize ]
 [f ]
-[; ;main.c: 45: ANSELA = 7;
-"45
-[e = _ANSELA -> -> 7 `i `uc ]
-[; ;main.c: 46: TRISA = 3;
-"46
-[e = _TRISA -> -> 3 `i `uc ]
-[; ;main.c: 47: TRISD = 0;
-"47
+[; ;main.c: 82: ANSELA = 0xff;
+"82
+[e = _ANSELA -> -> 255 `i `uc ]
+[; ;main.c: 83: TRISA = 0xff;
+"83
+[e = _TRISA -> -> 255 `i `uc ]
+[; ;main.c: 84: TRISD = 0;
+"84
 [e = _TRISD -> -> 0 `i `uc ]
-[; ;main.c: 48: PORTA = 0;
-"48
+[; ;main.c: 85: PORTA = 0;
+"85
 [e = _PORTA -> -> 0 `i `uc ]
-[; ;main.c: 49: TRISB = 0;
-"49
+[; ;main.c: 86: TRISB = 0;
+"86
 [e = _TRISB -> -> 0 `i `uc ]
-[; ;main.c: 50: ANSELB = 0;
-"50
+[; ;main.c: 87: ANSELB = 0;
+"87
 [e = _ANSELB -> -> 0 `i `uc ]
-[; ;main.c: 53: ADCON1bits.ADFM = 0;
-"53
+[; ;main.c: 88: PORTB=0;
+"88
+[e = _PORTB -> -> 0 `i `uc ]
+[; ;main.c: 89: PORTD = 0;
+"89
+[e = _PORTD -> -> 0 `i `uc ]
+[; ;main.c: 90: TRISD = 0;
+"90
+[e = _TRISD -> -> 0 `i `uc ]
+[; ;main.c: 91: ANSELD = 0;
+"91
+[e = _ANSELD -> -> 0 `i `uc ]
+[; ;main.c: 94: ADCON1bits.ADFM = 0;
+"94
 [e = . . _ADCON1bits 0 7 -> -> 0 `i `uc ]
-[; ;main.c: 55: ADCON1bits.ADCS2 = 1;
-"55
+[; ;main.c: 96: ADCON1bits.ADCS2 = 1;
+"96
 [e = . . _ADCON1bits 0 6 -> -> 1 `i `uc ]
-[; ;main.c: 56: ADCON1bits.ADCS1 = 1;
-"56
+[; ;main.c: 97: ADCON1bits.ADCS1 = 1;
+"97
 [e = . . _ADCON1bits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 57: ADCON1bits.ADCS0 = 1;
-"57
+[; ;main.c: 98: ADCON1bits.ADCS0 = 1;
+"98
 [e = . . _ADCON1bits 0 4 -> -> 1 `i `uc ]
-[; ;main.c: 59: ADCON1bits.ADNREF = 0;
-"59
+[; ;main.c: 100: ADCON1bits.ADNREF = 0;
+"100
 [e = . . _ADCON1bits 0 2 -> -> 0 `i `uc ]
-[; ;main.c: 60: ADCON1bits.ADPREF1 = 0;
-"60
+[; ;main.c: 101: ADCON1bits.ADPREF1 = 0;
+"101
 [e = . . _ADCON1bits 0 1 -> -> 0 `i `uc ]
-[; ;main.c: 61: ADCON1bits.ADPREF0 = 0;
-"61
+[; ;main.c: 102: ADCON1bits.ADPREF0 = 0;
+"102
 [e = . . _ADCON1bits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 63: ADCON0bits.ADON = 1;
-"63
+[; ;main.c: 104: ADCON0bits.ADON = 1;
+"104
 [e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 65: ADCON0bits.CHS4 = 0;
-"65
+[; ;main.c: 106: ADCON0bits.CHS4 = 0;
+"106
 [e = . . _ADCON0bits 0 6 -> -> 0 `i `uc ]
-[; ;main.c: 66: ADCON0bits.CHS3 = 0;
-"66
+[; ;main.c: 107: ADCON0bits.CHS3 = 0;
+"107
 [e = . . _ADCON0bits 0 5 -> -> 0 `i `uc ]
-[; ;main.c: 67: ADCON0bits.CHS2 = 0;
-"67
+[; ;main.c: 108: ADCON0bits.CHS2 = 0;
+"108
 [e = . . _ADCON0bits 0 4 -> -> 0 `i `uc ]
-[; ;main.c: 68: ADCON0bits.CHS1 = 0;
-"68
+[; ;main.c: 109: ADCON0bits.CHS1 = 0;
+"109
 [e = . . _ADCON0bits 0 3 -> -> 0 `i `uc ]
-[; ;main.c: 69: ADCON0bits.CHS0 = 0;
-"69
+[; ;main.c: 110: ADCON0bits.CHS0 = 0;
+"110
 [e = . . _ADCON0bits 0 2 -> -> 0 `i `uc ]
-[; ;main.c: 71: }
-"71
-[e :UE 375 ]
+[; ;main.c: 112: }
+"112
+[e :UE 376 ]
 }
-"73
+"114
 [v _getConversionRes `(uc ~T0 @X0 1 ef1`uc ]
 {
-[; ;main.c: 73: unsigned char getConversionRes(char id) {
+[; ;main.c: 114: unsigned char getConversionRes(char id) {
 [e :U _getConversionRes ]
 [v _id `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;main.c: 74: ADCON0bits.CHS0 = id;
-"74
+[; ;main.c: 115: ADCON0bits.CHS0 = id;
+"115
 [e = . . _ADCON0bits 0 2 _id ]
-[; ;main.c: 75: ADCON0bits.ADGO = 1;
-"75
+[; ;main.c: 116: ADCON0bits.ADGO = 1;
+"116
 [e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-[; ;main.c: 76: while (ADCON0bits.ADGO)
-"76
-[e $U 377  ]
-[e :U 378 ]
-[; ;main.c: 77: ;
-"77
-[e :U 377 ]
-"76
-[e $ != -> . . _ADCON0bits 1 1 `i -> -> -> 0 `i `Vuc `i 378  ]
+[; ;main.c: 117: while (ADCON0bits.ADGO) ;
+"117
+[e $U 378  ]
 [e :U 379 ]
-[; ;main.c: 78: return ADRESH;
-"78
+[e :U 378 ]
+[e $ != -> . . _ADCON0bits 1 1 `i -> -> -> 0 `i `Vuc `i 379  ]
+[e :U 380 ]
+[; ;main.c: 118: return ADRESH;
+"118
 [e ) _ADRESH ]
-[e $UE 376  ]
-[; ;main.c: 79: }
-"79
-[e :UE 376 ]
+[e $UE 377  ]
+[; ;main.c: 119: }
+"119
+[e :UE 377 ]
 }
-"81
+"121
 [v _getVoltage `(f ~T0 @X0 1 ef1`uc ]
 {
-[; ;main.c: 81: float getVoltage(char id) { return 5.0f * (getConversionRes(id) / 255.0f); }
+[; ;main.c: 121: float getVoltage(char id) { return 5.0f * (getConversionRes(id) / 255.0f); }
 [e :U _getVoltage ]
 [v _id `uc ~T0 @X0 1 r1 ]
 [f ]
 [e ) * -> .5.0 `f / -> ( _getConversionRes (1 _id `f -> .255.0 `f ]
-[e $UE 380  ]
-[e :UE 380 ]
-}
-"90
-[v __main `(v ~T0 @X0 1 ef ]
-{
-[; ;main.c: 90: void _main(void) {
-[e :U __main ]
-[f ]
-[; ;main.c: 91: initialize();
-"91
-[e ( _initialize ..  ]
-"92
-[v _uprev `f ~T0 @X0 1 a ]
-[; ;main.c: 92: float uprev = 0, error;
-[e = _uprev -> -> 0 `i `f ]
-[v _error `f ~T0 @X0 1 a ]
-"93
-[v _integral `f ~T0 @X0 1 a ]
-[; ;main.c: 93: float integral = 0;
-[e = _integral -> -> 0 `i `f ]
-"94
-[v _setPoint `f ~T0 @X0 1 a ]
-[; ;main.c: 94: float setPoint = getVoltage(0);
-[e = _setPoint ( _getVoltage (1 -> -> 0 `i `uc ]
-"95
-[v _output `f ~T0 @X0 1 a ]
-[; ;main.c: 95: float output = 0.0f;
-[e = _output -> .0.0 `f ]
-[; ;main.c: 96: while (1) {
-"96
-[e :U 383 ]
-{
-[; ;main.c: 97: error = getVoltage(0) - getVoltage(1);
-"97
-[e = _error - ( _getVoltage (1 -> -> 0 `i `uc ( _getVoltage (1 -> -> 1 `i `uc ]
-[; ;main.c: 98: integral += error * 0.5f;
-"98
-[e =+ _integral * _error -> .0.5 `f ]
-[; ;main.c: 99: output = 9001.28f * error + -8998.71f * integral;
-"99
-[e = _output + * -> .9001.28 `f _error * -U -> .8998.71 `f _integral ]
-[; ;main.c: 101: if (output > 5.0f)
-"101
-[e $ ! > _output -> .5.0 `f 385  ]
-[; ;main.c: 102: output = 5.0f;
-"102
-[e = _output -> .5.0 `f ]
-[e :U 385 ]
-[; ;main.c: 103: if (output < 0.0f)
-"103
-[e $ ! < _output -> .0.0 `f 386  ]
-[; ;main.c: 104: output = 0.0f;
-"104
-[e = _output -> .0.0 `f ]
-[e :U 386 ]
-[; ;main.c: 106: PORTBbits.RB0 = 0;
-"106
-[e = . . _PORTBbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 107: _delay((unsigned long)((((1 / 19610.0f) * 1000.0f) * 0.3)*(8000000/4000.0)));
-"107
-[e ( __delay (1 -> * * -> * / -> -> 1 `i `f -> .19610.0 `f -> .1000.0 `f `d .0.3 / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;main.c: 108: PORTBbits.RB0 = 1;
-"108
-[e = . . _PORTBbits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 109: _delay((unsigned long)((((1 / 19610.0f) * 1000.0f) * 0.7)*(8000000/4000.0)));
-"109
-[e ( __delay (1 -> * * -> * / -> -> 1 `i `f -> .19610.0 `f -> .1000.0 `f `d .0.7 / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;main.c: 111: _delay((unsigned long)((0.5f * 1000.0f)*(8000000/4000.0)));
-"111
-[e ( __delay (1 -> * -> * -> .0.5 `f -> .1000.0 `f `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"112
-}
-[e :U 382 ]
-"96
-[e $U 383  ]
-[e :U 384 ]
-[; ;main.c: 112: }
-[; ;main.c: 113: return;
-"113
 [e $UE 381  ]
-[; ;main.c: 114: }
-"114
 [e :UE 381 ]
 }
-"116
+"130
+[v __main `(v ~T0 @X0 1 ef ]
+{
+[; ;main.c: 130: void _main(void) {
+[e :U __main ]
+[f ]
+[; ;main.c: 131: initialize();
+"131
+[e ( _initialize ..  ]
+"132
+[v _uprev `f ~T0 @X0 1 a ]
+[; ;main.c: 132: float uprev = 0, error;
+[e = _uprev -> -> 0 `i `f ]
+[v _error `f ~T0 @X0 1 a ]
+"133
+[v _integral `f ~T0 @X0 1 a ]
+[; ;main.c: 133: float integral = 0;
+[e = _integral -> -> 0 `i `f ]
+"134
+[v _setPoint `f ~T0 @X0 1 a ]
+[; ;main.c: 134: float setPoint = getVoltage(0);
+[e = _setPoint ( _getVoltage (1 -> -> 0 `i `uc ]
+"135
+[v _output `f ~T0 @X0 1 a ]
+[; ;main.c: 135: float output = 0.0f;
+[e = _output -> .0.0 `f ]
+[; ;main.c: 136: while (1) {
+"136
+[e :U 384 ]
+{
+[; ;main.c: 137: error = getVoltage(0) - getVoltage(1);
+"137
+[e = _error - ( _getVoltage (1 -> -> 0 `i `uc ( _getVoltage (1 -> -> 1 `i `uc ]
+[; ;main.c: 138: integral += error * 0.5f;
+"138
+[e =+ _integral * _error -> .0.5 `f ]
+[; ;main.c: 139: output = 9001.28f * error + -8998.71f * integral;
+"139
+[e = _output + * -> .9001.28 `f _error * -U -> .8998.71 `f _integral ]
+[; ;main.c: 141: if (output > 5.0f)
+"141
+[e $ ! > _output -> .5.0 `f 386  ]
+[; ;main.c: 142: output = 5.0f;
+"142
+[e = _output -> .5.0 `f ]
+[e :U 386 ]
+[; ;main.c: 143: if (output < 0.0f)
+"143
+[e $ ! < _output -> .0.0 `f 387  ]
+[; ;main.c: 144: output = 0.0f;
+"144
+[e = _output -> .0.0 `f ]
+[e :U 387 ]
+[; ;main.c: 146: PORTBbits.RB0 = 0;
+"146
+[e = . . _PORTBbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 147: _delay((unsigned long)((((1 / 19610.0f) * 1000.0f) * 0.3)*(8000000/4000.0)));
+"147
+[e ( __delay (1 -> * * -> * / -> -> 1 `i `f -> .19610.0 `f -> .1000.0 `f `d .0.3 / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;main.c: 148: PORTBbits.RB0 = 1;
+"148
+[e = . . _PORTBbits 0 0 -> -> 1 `i `uc ]
+[; ;main.c: 149: _delay((unsigned long)((((1 / 19610.0f) * 1000.0f) * 0.7)*(8000000/4000.0)));
+"149
+[e ( __delay (1 -> * * -> * / -> -> 1 `i `f -> .19610.0 `f -> .1000.0 `f `d .0.7 / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;main.c: 151: _delay((unsigned long)((0.5f * 1000.0f)*(8000000/4000.0)));
+"151
+[e ( __delay (1 -> * -> * -> .0.5 `f -> .1000.0 `f `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"152
+}
+[e :U 383 ]
+"136
+[e $U 384  ]
+[e :U 385 ]
+[; ;main.c: 152: }
+[; ;main.c: 153: return;
+"153
+[e $UE 382  ]
+[; ;main.c: 154: }
+"154
+[e :UE 382 ]
+}
+"156
 [v _setup `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 116: void setup() {
+[; ;main.c: 156: void setup() {
 [e :U _setup ]
 [f ]
-[; ;main.c: 117: ANSELB = 0;
-"117
+[; ;main.c: 157: ANSELB = 0;
+"157
 [e = _ANSELB -> -> 0 `i `uc ]
-[; ;main.c: 118: TRISB = 0;
-"118
+[; ;main.c: 158: TRISB = 0;
+"158
 [e = _TRISB -> -> 0 `i `uc ]
-[; ;main.c: 119: PR2 = 0b01100101;
-"119
+[; ;main.c: 159: PR2 = 0b01100101;
+"159
 [e = _PR2 -> -> 101 `i `uc ]
-[; ;main.c: 120: T2CON = 0b00000100;
-"120
+[; ;main.c: 160: T2CON = 0b00000100;
+"160
 [e = _T2CON -> -> 4 `i `uc ]
-[; ;main.c: 121: CCPR1L = 0b01100101;
-"121
+[; ;main.c: 161: CCPR1L = 0b01100101;
+"161
 [e = _CCPR1L -> -> 101 `i `uc ]
-[; ;main.c: 122: CCP1CON = 0b00111100;
-"122
+[; ;main.c: 162: CCP1CON = 0b00111100;
+"162
 [e = _CCP1CON -> -> 60 `i `uc ]
-[; ;main.c: 123: }
-"123
-[e :UE 387 ]
+[; ;main.c: 163: }
+"163
+[e :UE 388 ]
 }
-"125
+"165
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 125: void main() {
+[; ;main.c: 165: void main() {
 [e :U _main ]
 [f ]
-[; ;main.c: 128: interruptSetup();
-"128
+[; ;main.c: 167: initialize();
+"167
+[e ( _initialize ..  ]
+[; ;main.c: 168: interruptSetup();
+"168
 [e ( _interruptSetup ..  ]
-"129
+"169
 [v _id `uc ~T0 @X0 1 a ]
-[; ;main.c: 129: unsigned char id = 1;
+[; ;main.c: 169: unsigned char id = 1;
 [e = _id -> -> 1 `i `uc ]
-[; ;main.c: 130: PORTB = 0;
-"130
-[e = _PORTB -> -> 0 `i `uc ]
-"131
-[v _cnt `i ~T0 @X0 1 a ]
-[; ;main.c: 131: int cnt = 0;
-[e = _cnt -> 0 `i ]
-[; ;main.c: 132: for (;;) {
-"132
+[; ;main.c: 170: for (;;) {
+"170
 {
-[e :U 389 ]
-{
-[; ;main.c: 133: PORTBbits.RB0 = 1;
-"133
-[e = . . _PORTBbits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 134: _delay((unsigned long)((d * 10)*(8000000/4000.0)));
-"134
-[e ( __delay (1 -> * -> * _d -> -> 10 `i `f `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;main.c: 135: PORTBbits.RB0 = 0;
-"135
-[e = . . _PORTBbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 136: _delay((unsigned long)(((1 - d) * 10)*(8000000/4000.0)));
-"136
-[e ( __delay (1 -> * -> * - -> -> 1 `i `f _d -> -> 10 `i `f `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"148
-}
-[; ;main.c: 148: };
-[e $U 389  ]
 [e :U 390 ]
+{
+"188
 }
-[; ;main.c: 149: }
-"149
-[e :UE 388 ]
+[; ;main.c: 188: };
+[e $U 390  ]
+[e :U 391 ]
+}
+[; ;main.c: 189: }
+"189
+[e :UE 389 ]
 }

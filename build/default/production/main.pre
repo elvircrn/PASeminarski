@@ -4546,33 +4546,56 @@ extern __bit __timeout;
 
 # 23 "main.c"
 void interruptSetup() {
-ADCON1 = 0x82;
-ADCON0 = 0b11000001;
+
+
 GIE = 1;
 PEIE = 1;
 ADIE = 1;
-ADGO = 1;
+ADIF = 0;
+ADGO=1;
+TMR0IF=0;
+TMR0IE=1;
+TMR0CS = 0;
+PSA = 0;
 }
 
 int analog_selected = 0;
 
-float d;
-void interrupt handler(){
-if (ADIF) {
-ADIF=0;
-d = (((ADRESH << 8) | ADRESL) / 1023.0f) * 5.0;
+unsigned char reverse(unsigned char b) {
+b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+return b;
+}
+
+volatile unsigned char turnOn, d;
+void interrupt interruptHandler(void){
+
+# 68
+if (ADIE && ADIF) {
+
+PORTD = ~reverse(ADRESH);
+
+
+
+
 ADGO = 1;
+ADIF = 0;
 }
 }
 
 
 void initialize() {
-ANSELA = 7;
-TRISA = 3;
+ANSELA = 0xff;
+TRISA = 0xff;
 TRISD = 0;
 PORTA = 0;
 TRISB = 0;
 ANSELB = 0;
+PORTB=0;
+PORTD = 0;
+TRISD = 0;
+ANSELD = 0;
 
 
 ADCON1bits.ADFM = 0;
@@ -4598,14 +4621,13 @@ ADCON0bits.CHS0 = 0;
 unsigned char getConversionRes(char id) {
 ADCON0bits.CHS0 = id;
 ADCON0bits.ADGO = 1;
-while (ADCON0bits.ADGO)
-;
+while (ADCON0bits.ADGO) ;
 return ADRESH;
 }
 
 float getVoltage(char id) { return 5.0f * (getConversionRes(id) / 255.0f); }
 
-# 90
+# 130
 void _main(void) {
 initialize();
 float uprev = 0, error;
@@ -4643,17 +4665,12 @@ CCP1CON = 0b00111100;
 
 void main() {
 
-
+initialize();
 interruptSetup();
 unsigned char id = 1;
-PORTB = 0;
-int cnt = 0;
 for (;;) {
-PORTBbits.RB0 = 1;
-_delay((unsigned long)((d * 10)*(8000000/4000.0)));
-PORTBbits.RB0 = 0;
-_delay((unsigned long)(((1 - d) * 10)*(8000000/4000.0)));
 
-# 148
+# 188
 };
 }
+

@@ -1,7 +1,7 @@
 #pragma config FOSC = HS, WDTE = OFF, PWRTE = OFF, MCLRE = ON, CP = OFF,       \
-               CPD = OFF, BOREN = OFF, CLKOUTEN = OFF
+                      CPD = OFF, BOREN = OFF, CLKOUTEN = OFF
 #pragma config IESO = OFF, FCMEN = OFF, WRT = OFF, VCAPEN = OFF, PLLEN = OFF,  \
-               STVREN = OFF, LVP = OFF
+                      STVREN = OFF, LVP = OFF
 
 #define _XTAL_FREQ 8000000
 #define F_PWM 19610.0f
@@ -21,34 +21,75 @@
 #define __deyal_ms(x) _delay((unsigned long)((x) * (_XTAL_FREQ / 4000.0)))
 
 void interruptSetup() {
-  ADCON1 = 0x82; // AN0->AN4 selected as analog input
-  ADCON0 = 0b11000001; // Configue analog mode
+  //  ADCON1 = 0x82; // AN0->AN4 selected as analog input
+  //  ADCON0 = 0b11000001; // Configue analog mode
   GIE = 1; //Enable global interrupt
   PEIE = 1; //Enable peripheral interrupt
-  ADIE = 1; //Enable ADC interrupt
-  ADGO = 1;
+  ADIE = 1; //Enable ADC interrupt 
+  ADIF = 0;
+  ADGO=1;
+  TMR0IF=0;
+  TMR0IE=1;
+  TMR0CS = 0;
+  PSA = 0;
 }
 
 int analog_selected = 0;
 
-float d;
-void interrupt handler(){
-  if (ADIF) {
-    ADIF=0;
-    d = (((ADRESH << 8) | ADRESL) / 1023.0f) * 5.0;
+unsigned char reverse(unsigned char b) {
+   b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+   b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+   b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+   return b;
+}
+
+volatile unsigned char turnOn, d;
+void interrupt interruptHandler(void){
+//  if (TMR0IE && TMR0IF) {
+//    ADIF = 0;
+//    TMR0IF = 0;
+//    //PORTB = 0xff;
+//
+//    if (turnOn) {
+//        PS2 = 1;
+//        PS1 = 1;
+//        PS0 = 1;
+//        PORTB = 0xff;
+//    }
+//    else {
+//        PS2 = 1;
+//        PS1 = 1;
+//        PS0 = 0;
+//        PORTB = 0;
+//    }
+//    turnOn ^= 1;
+//  }
+  
+  if (ADIE && ADIF) {
+//    volatile unsigned char lock = (unsigned char)((ADRESH / 255.0f) * 51.0f);
+    PORTD = ~reverse(ADRESH);
+//    PORTBbits.RB0 = 1;
+//    __delay_us(lock);
+//    PORTBbits.RB0 = 0;
+//    __delay_us(51 - lock);
     ADGO = 1;
+    ADIF = 0;
   }
 }
 
 
 void initialize() {
-  ANSELA = 7;
-  TRISA = 3;
+  ANSELA = 0xff;
+  TRISA = 0xff;
   TRISD = 0;
   PORTA = 0;
   TRISB = 0;
   ANSELB = 0;
-  
+  PORTB=0;
+  PORTD = 0;
+  TRISD = 0;
+  ANSELD = 0;
+
 
   ADCON1bits.ADFM = 0;
 
@@ -67,14 +108,13 @@ void initialize() {
   ADCON0bits.CHS2 = 0;
   ADCON0bits.CHS1 = 0;
   ADCON0bits.CHS0 = 0;
-  
+
 }
 
 unsigned char getConversionRes(char id) {
   ADCON0bits.CHS0 = id;
   ADCON0bits.ADGO = 1;
-  while (ADCON0bits.ADGO)
-    ;
+  while (ADCON0bits.ADGO) ;
   return ADRESH;
 }
 
@@ -102,12 +142,12 @@ void _main(void) {
       output = MAX;
     if (output < MIN)
       output = MIN;
-  
+
     PORTBbits.RB0 = 0;
     __delay_ms(T_PWM_MS * 0.3);
     PORTBbits.RB0 = 1;
     __delay_ms(T_PWM_MS * 0.7);
-    
+
     __delay_ms(SAMPLE_RATE * 1000.0f);
   }
   return;
@@ -123,27 +163,28 @@ void setup() {
 }
 
 void main() {
-//  setup();
-//  initialize();
+  //  setup();
+  initialize();
   interruptSetup();
   unsigned char id = 1;
-  PORTB = 0;
-  int cnt = 0;
   for (;;) {
-      PORTBbits.RB0 = 1;
-      __delay_ms(d * 10);
-      PORTBbits.RB0 = 0;
-      __delay_ms((1 - d) * 10);
-      
-//    for (dc = 0; dc < 128; dc++) {
-//      CCPR1L = dc;
-//      CCPR2L = 128 - dc;
-//      __delay_ms(10);
-//    }
-//    for (dc = 127; dc > 0; dc--) {
-//      CCPR1L = dc;
-//      CCPR2L = 128 - dc;
-//      __delay_ms(10);
-//    }
+//    PORTB = (d & (0xff - 1)) + (PORTB & 1);;
+//    PORTB = getConversionRes(POTEN); 
+//    PORTB = (lock & (0xff - 1)) + (PORTB & 1); 
+//    PORTBbits.RB0 = 1;
+//    __delay_ms(lock / 10);
+//    PORTBbits.RB0 = 0;
+//    __delay_ms((255 - lock) / 10);
+    //    for (dc = 0; dc < 128; dc++) {
+    //      CCPR1L = dc;
+    //      CCPR2L = 128 - dc;
+    //      __delay_ms(10);
+    //    }
+    //    for (dc = 127; dc > 0; dc--) {
+    //      CCPR1L = dc;
+    //      CCPR2L = 128 - dc;
+    //      __delay_ms(10);
+    //    }
   };
 }
+
