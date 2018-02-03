@@ -95,6 +95,20 @@ void initializeTimer() {
   INTCONbits.TMR0IE = 1;
 }
 
+static unsigned int g_seed;
+
+// Used to seed the generator.
+inline void fast_srand(int seed) {
+    g_seed = seed;
+}
+
+// Compute a pseudorandom integer.
+// Output value in range [0, 32767]
+inline int fast_rand(void) {
+    g_seed = (214013*g_seed+2531011);
+    return (g_seed>>16)&0x7FFF;
+}
+
 void interrupt interruptHandler(void){
   //Handler timera
   if (TMR0IE && TMR0IF) {
@@ -107,10 +121,11 @@ void interrupt interruptHandler(void){
   //Handler konverzije
   if (ADIE && ADIF) {
     float result = ((ADRESH / 255.0f) * 5.0f);
-    if(ADCON0bits.CHS0)
+    if(ADCON0bits.CHS0) {
       potenciometar = result;
-    else
+    } else {
       sensor = result;
+    }
     ADCON0bits.CHS0 = !ADCON0bits.CHS0;
     ADGO = 1;
     ADIF = 0;
@@ -124,7 +139,9 @@ void main(void) {
   float integral = 0;
   float output = 0.0f;
   while (1) {
-    error = potenciometar - sensor;
+    volatile float _potenciometar = potenciometar;
+    volatile float _sensor = sensor;
+    error = _potenciometar - _sensor;
     integral += error * SAMPLE_RATE;
     output = KP * error + KI * integral;
 

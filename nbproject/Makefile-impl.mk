@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=projekat.X
+PROJECTNAME=PASeminarski
 
 # Active Configuration
 DEFAULTCONF=default
