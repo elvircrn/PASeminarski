@@ -37,7 +37,7 @@ unsigned char reverse(unsigned char b) {
 }
 
 void printDigit(char digit, char selection) {
-	PORTB = digits[digit] ^ ~(selection << 7);
+	PORTB = digits[digit] ^ (!selection << 7);
 }
 
 void initializeAsyncConversion() {
