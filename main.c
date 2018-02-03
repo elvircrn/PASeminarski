@@ -39,6 +39,7 @@ unsigned char reverse(unsigned char b) {
 }
 
 void printDigit(unsigned char digit, unsigned char selection) {
+  // TODO: Provjeri da li onaj kloc kloc zna razliku izmedju ~ i !.
   PORTB = digits[digit] ^ (!selection << 7);
 }
 
